@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ислам | Creative Engineer Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --accent: #7000ff;
+            --bg: #030305;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- ДИНАМИЧЕСКИЙ ФОН --- */
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(0.2) saturate(1.2);
+            transform: scale(1.1);
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, transparent, var(--bg));
+        }
+
+        /* --- НАВИГАЦИЯ --- */
+        header {
+            position: fixed; top: 0; width: 100%;
+            padding: 30px; z-index: 1000;
+            display: flex; justify-content: center;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            padding: 10px 30px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            display: flex; gap: 15px;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 10px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background: rgba(0, 242, 255, 0.1);
+        }
+
+        /* --- ОСНОВНЫЕ СЕКЦИИ --- */
+        main {
+            padding-top: 150px;
+            min-height: 100vh;
+            display: flex; justify-content: center;
+            padding-bottom: 100px;
+        }
+
+        .page {
+            display: none;
+            width: 90%;
+            max-width: 1100px;
+            animation: pageIn 0.8s ease forwards;
+        }
+
+        .page.active { display: block; }
+
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(30px) rotateX(-5deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        /* --- ГЛАВНАЯ (HOME) --- */
+        .hero-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            line-height: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .hero-title span {
+            display: block;
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+            transition: 0.5s;
+        }
+        .hero-title span:hover { color: var(--primary); -webkit-text-stroke: 0; }
+
+        .btn-main {
+            padding: 18px 35px;
+            background: var(--primary);
+            color: black;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 5px;
+            display: inline-block;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .btn-main:hover { transform: skewX(-10deg); box-shadow: 8px 8px 0 var(--accent); }
+
+        /* --- О КОМПАНИИ / ОБО МНЕ --- */
+        .about-flex {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 20px;
+            border: 1px solid var(--primary);
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+        }
+
+        .about-image img { width: 100%; display: block; }
+
+        /* --- КАРТОЧКИ УСЛУГ --- */
+        .service-list { display: grid; gap: 20px; }
+        
+        .service-item {
+            background: var(--glass);
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.4s;
+        }
+
+        .service-item:hover { 
+            background: rgba(255,255,255,0.07); 
+            border-color: var(--primary);
+            transform: translateX(15px);
+        }
+
+        /* --- КОНТАКТЫ --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-form {
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 30px;
+            display: grid; gap: 20px;
+            border: 1px solid var(--border);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input:focus, textarea:focus { border-color: var(--primary); }
+
+        footer {
+            padding: 50px; text-align: center; font-size: 10px; letter-spacing: 5px; opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            header { padding: 15px; }
+            nav { gap: 5px; padding: 5px 15px; }
+            .nav-link { font-size: 9px; padding: 8px 10px; }
+        }
+    </style>
+</head>
+<body onload="initBg()">
+
+    <div id="bg-layer" class="bg-overlay"></div>
+    <div class="bg-gradient"></div>
+
+    <header>
+        <nav>
+            <div class="nav-link active" onclick="navigate('home', this)">Главная</div>
+            <div class="nav-link" onclick="navigate('about', this)">Обо мне</div>
+            <div class="nav-link" onclick="navigate('services', this)">Услуги</div>
+            <div class="nav-link" onclick="navigate('contact', this)">Коннект</div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="page active">
+            <h1 class="hero-title">ISLAM<br><span>DEVELOPER</span></h1>
+            <p style="font-size: 18px; max-width: 600px; margin-bottom: 40px; color: #ccc; font-weight: 300;">
+                Я создаю цифровые продукты, которые выделяются в бесконечном потоке информации. 
+                Сочетание безумного дизайна и идеального кода. Создаю будущее веба уже сегодня.
+            </p>
+            <a href="#" class="btn-main" onclick="navigate('about', document.querySelectorAll('.nav-link')[1])">Узнать больше</a>
+        </section>
+
+        <section id="about" class="page">
+            <h2 style="font-family: 'Syncopate'; font-size: 2.5rem; margin-bottom: 40px; color: var(--primary);">ОБО МНЕ</h2>
+            <div class="about-flex">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600" alt="Ислам">
+                </div>
+                <div style="flex: 1.5; min-width: 300px;">
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">Привет! Я Ислам — профессиональный веб-разработчик, нацеленный на результат.</p>
+                    <p style="color: #aaa; margin-bottom: 20px;">Моя миссия заключается в создании интерфейсов, которые не только красиво выглядят, но и приносят реальную пользу бизнесу. В работе я использую только чистый код стандарта HTML5 и CSS3.</p>
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <div style="border-left: 2px solid var(--primary); padding-left: 15px;">
+                            <h4 style="color: var(--primary);">50+</h4>
+                            <p style="font-size: 12px;">Проектов</p>
+                        </div>
+                        <div style="border-left: 2px solid var(--primary); padding-left: 15px;">
+                            <h4 style="color: var(--primary);">100%</h4>
+                            <p style="font-size: 12px;">Качество</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="page">
+            <h2 style="font-family: 'Syncopate'; font-size: 2.5rem; margin-bottom: 40px; color: var(--primary);">УСЛУГИ</h2>
+            <div class="service-list">
+                <div class="service-item">
+                    <div>
+                        <h3 style="letter-spacing: 1px;">01. ВЕБ-РАЗРАБОТКА</h3>
+                        <p style="color: #888; margin-top: 5px;">Создание быстрых и надежных сайтов с использованием современных методологий (БЭМ).</p>
+                    </div>
+                    <div style="font-size: 30px; color: var(--primary);">💻</div>
+                </div>
+                <div class="service-item">
+                    <div>
+                        <h3 style="letter-spacing: 1px;">02. АДАПТИВНЫЙ ДИЗАЙН</h3>
+                        <p style="color: #888; margin-top: 5px;">Ваш сайт будет идеально смотреться на смартфонах, планшетах и мониторах.</p>
+                    </div>
+                    <div style="font-size: 30px; color: var(--primary);">📱</div>
+                </div>
+                <div class="service-item">
+                    <div>
+                        <h3 style="letter-spacing: 1px;">03. ОПТИМИЗАЦИЯ</h3>
+                        <p style="color: #888; margin-top: 5px;">Ускорение работы сайта и достижение высоких показателей в Google PageSpeed.</p>
+                    </div>
+                    <div style="font-size: 30px; color: var(--primary);">🚀</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="page">
+            <div class="contact-grid">
+                <div>
+                    <h2 style="font-family: 'Syncopate'; font-size: 3rem; line-height: 1;">LET'S<br>CONNECT</h2>
+                    <p style="margin: 30px 0; color: #888; font-size: 1.1rem;">Оставьте заявку, и я свяжусь с вами в течение 15 минут для обсуждения деталей вашего проекта.</p>
+                    <div style="margin-top: 40px;">
+                        <p style="color: var(--primary); font-size: 12px; letter-spacing: 2px;">EMAIL</p>
+                        <p style="font-size: 1.5rem; font-weight: 700;">hello@webmaster.ru</p>
+                        <br>
+                        <p style="color: var(--primary); font-size: 12px; letter-spacing: 2px;">SOCIALS</p>
+                        <div style="display: flex; gap: 20px; margin-top: 10px;">
+                            <a href="#" style="color: white; text-decoration: none; font-size: 14px;">Telegram</a>
+                            <a href="#" style="color: white; text-decoration: none; font-size: 14px;">GitHub</a>
+                            <a href="#" style="color: white; text-decoration: none; font-size: 14px;">VK</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <input type="text" placeholder="Ваше имя" required>
+                    <input type="email" placeholder="Ваш Email" required>
+                    <textarea rows="5" placeholder="Опишите вашу идею или проект..."></textarea>
+                    <button class="btn-main" style="cursor: pointer;">Отправить сигнал</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>CREATED BY ISLAM // 2026 // WORLDSKILLS EDITION // ALL SYSTEMS NOMINAL</p>
+    </footer>
+
+    <script>
+        // Ссылки на фоновые изображения для каждой страницы
+        const backgrounds = {
+            home: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80',
+            about: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1920&q=80',
+            services: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80',
+            contact: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=1920&q=80'
+        };
+
+        function initBg() {
+            document.getElementById('bg-layer').style.backgroundImage = `url(${backgrounds.home})`;
+        }
+
+        function navigate(tabId, el) {
+            // Анимация активной ссылки
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            el.classList.add('active');
+
+            // Переключение страниц
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            // Плавная смена фона
+            const bgLayer = document.getElementById('bg-layer');
+            bgLayer.style.opacity = '0.3';
+            
+            setTimeout(() => {
+                bgLayer.style.backgroundImage = `url(${backgrounds[tabId]})`;
+                bgLayer.style.opacity = '1';
+            }, 300);
+
+            // Скролл в начало
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
